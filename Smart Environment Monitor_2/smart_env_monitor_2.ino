@@ -77,7 +77,8 @@ void reconnect() {
     // Reconnect to MQTT broker
     while (!client.connected()) {
         Serial.print("Attempting MQTT connection...");
-        if (client.connect("ESP32Client", mqtt_user, mqtt_pass)) {
+        String clientId = "ESP32Client-" + String(random(0xffff), HEX);
+        if (client.connect(clientId.c_str(), mqtt_user, mqtt_pass)) {
             Serial.println("connected");
             // Subscribe to topic controlling LED
             client.subscribe(subscribe_topic);
