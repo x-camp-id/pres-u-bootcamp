@@ -101,7 +101,7 @@ void loop() {
     float humidity = dht.readHumidity();
 
     // Print to Serial Monitor
-    Serial.printf("Gas: %d, Temp: %.1f, Hum: %.1f\\n", gasValue, temperature, humidity);
+    Serial.printf("Gas: %d, Temp: %.1f, Hum: %.1f\n", gasValue, temperature, humidity);
 
     // Display data on LCD
     lcd.setCursor(0, 0);
