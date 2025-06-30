@@ -16,7 +16,7 @@ const int DHT_PIN = 14;
 // WiFi and MQTT broker credentials
 const char* ssid = "Wokwi-GUEST";  // Use Wokwi-GUEST for Wokwi simulation
 const char* password = "";         // No password for Wokwi-GUEST
-const char* mqtt_server = "broker.xdevelopment.my.id";
+const char* mqtt_server = "XXX";   // Replace with your MQTT broker address
 const char* mqtt_user = "pu_xcamp";
 const char* mqtt_pass = "pu_xcamp";
 
