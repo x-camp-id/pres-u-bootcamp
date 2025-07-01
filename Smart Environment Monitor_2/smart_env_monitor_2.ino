@@ -20,11 +20,11 @@ const char* mqtt_server = "XXX";   // Replace with your MQTT broker address
 const char* mqtt_user = "pu_xcamp";
 const char* mqtt_pass = "pu_xcamp";
 
-// Topic definitions [Please replace 'group-xx' with your actual group number]
-const char* subscribe_topic = "pres-u/group-xx/led_control";
-const char* publish_gas_topic = "pres-u/group-xx/gas";
-const char* publish_temp_topic = "pres-u/group-xx/temp";
-const char* publish_hum_topic = "pres-u/group-xx/hum";
+// Topic definitions [Please replace 'NIM' with your actual NIM]
+const char* subscribe_topic = "pres-u/{NIM}/led_control";
+const char* publish_gas_topic = "pres-u/{NIM}/gas";
+const char* publish_temp_topic = "pres-u/{NIM}/temp";
+const char* publish_hum_topic = "pres-u/{NIM}/hum";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
