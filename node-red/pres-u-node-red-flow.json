@@ -1,0 +1,784 @@
+[
+    {
+        "id": "eab64dbbfd6ee530",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3bfe96f17fefeec4",
+        "type": "mqtt in",
+        "z": "eab64dbbfd6ee530",
+        "name": "Sensor Data MQTT",
+        "topic": "pres-u/group-xx/#",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "d07de51ec34afb35",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 950,
+        "y": 360,
+        "wires": [
+            [
+                "62aee376070226bc"
+            ]
+        ]
+    },
+    {
+        "id": "8f7868d938612ac1",
+        "type": "mqtt out",
+        "z": "eab64dbbfd6ee530",
+        "name": "LED Commands",
+        "topic": "pres-u/x-camp/led-command",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d07de51ec34afb35",
+        "x": 1540,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "6038ace643eaa3e3",
+        "type": "mqtt in",
+        "z": "eab64dbbfd6ee530",
+        "name": "",
+        "topic": "downlink/ds/power",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7389073fb818c7d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 950,
+        "y": 900,
+        "wires": [
+            [
+                "8c85337553f20cce"
+            ]
+        ]
+    },
+    {
+        "id": "6286e5c6c6906ec2",
+        "type": "debug",
+        "z": "eab64dbbfd6ee530",
+        "name": "Blynk Parsed LED Command",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "dc1d84ce318db18f",
+        "type": "comment",
+        "z": "eab64dbbfd6ee530",
+        "name": "for controlling LED, value is 0 and 1",
+        "info": "for controlling LED, value is 0 and 1",
+        "x": 1180,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "62aee376070226bc",
+        "type": "switch",
+        "z": "eab64dbbfd6ee530",
+        "name": "Switch Topic",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "pres-u/group-xx/temp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pres-u/group-xx/hum",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pres-u/group-xx/gas",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1190,
+        "y": 360,
+        "wires": [
+            [
+                "d14aa7499c932bd5"
+            ],
+            [
+                "f6b6f753949ea57e"
+            ],
+            [
+                "6c75137e3989d185"
+            ]
+        ]
+    },
+    {
+        "id": "d14aa7499c932bd5",
+        "type": "function",
+        "z": "eab64dbbfd6ee530",
+        "name": "Process Temperature",
+        "func": "// Define temperature threshold\nconst threshold = {\n    good: { min: 18, max: 25 },    // 18-25°C is good\n    moderate: { min: 15, max: 30 } // 15-30°C is moderate\n}\n\n// Obtain Flow Context on Temperature Status\nvar tempStatus = flow.get(\"temp_status\") || \"\";\n\n// Extract temperature from message\nvar value = parseFloat(msg.payload) || 0.0;\n\n// Evaluate temperature status\nif (value >= threshold.good.min && value <= threshold.good.max) {\n    tempStatus = \"good\";\n    \n} else if (value >= threshold.moderate.min && value <= threshold.moderate.max) {\n    tempStatus = \"moderate\";\n} else {\n    tempStatus = \"critical\";\n}\n\n// Set Status\nflow.set(\"temp_status\", tempStatus);\n\n// Set msg payload and return msg\nmsg.payload = value;               \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1440,
+        "y": 160,
+        "wires": [
+            [
+                "70ebebad11812dc2",
+                "c94a972c0c410592",
+                "7a630234db6dc23e",
+                "4f22709445688538"
+            ]
+        ]
+    },
+    {
+        "id": "f6b6f753949ea57e",
+        "type": "function",
+        "z": "eab64dbbfd6ee530",
+        "name": "Process Humidity",
+        "func": "// Define humidity threshold\nconst threshold = {\n    good: { min: 40, max: 60 },    // 40-60% is good\n    moderate: { min: 30, max: 70 } // 30-70% is moderate\n}\n\n// Obtain Flow Context on Humidity Status\nvar humStatus = flow.get(\"humidity_status\") || \"\";\n\n// Extract humidity from message\nvar value = parseFloat(msg.payload) || 0.0;\n\n// Evaluate humidity status\nif (value >= threshold.good.min && value <= threshold.good.max) {\n    humStatus = \"good\";\n    \n} else if (value >= threshold.moderate.min && value <= threshold.moderate.max) {\n    humStatus = \"moderate\";\n} else {\n    humStatus = \"critical\";\n}\n\n// Set Status\nflow.set(\"humidity_status\", humStatus);\n\n// Set msg payload and return msg\nmsg.payload = value;               \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1430,
+        "y": 360,
+        "wires": [
+            [
+                "16cbdd3f145b7a00",
+                "4c18747642164e61",
+                "5afa8fd108903fd8",
+                "f5d5462db49e6cac"
+            ]
+        ]
+    },
+    {
+        "id": "6c75137e3989d185",
+        "type": "function",
+        "z": "eab64dbbfd6ee530",
+        "name": "Process Gas Concentration",
+        "func": "// Define gas concentration threshold\nconst threshold = {\n    good: {max: 300},\n    moderate: {max: 500}\n}\n\n// Obtain Flow Context on gas Status\nvar gasStatus = flow.get(\"gas_status\") || \"\";\n\n// Extract gas from message\nvar value = parseFloat(msg.payload) || 0.0;\n\n// Evaluate gas status\nif (value <= threshold.good.max) {\n    gasStatus = \"good\";\n    \n} else if (value <= threshold.moderate.max) {\n    gasStatus = \"moderate\";\n} else {\n    gasStatus = \"critical\";\n}\n\n// Set Status\nflow.set(\"gas_status\", gasStatus);\n\n// Set msg payload and return msg\nmsg.payload = value;               \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1460,
+        "y": 560,
+        "wires": [
+            [
+                "d0af8a70699994a6",
+                "53bd1bc1de366cde",
+                "76dba59cf40753a0",
+                "ef2f9731702b9622"
+            ]
+        ]
+    },
+    {
+        "id": "70ebebad11812dc2",
+        "type": "debug",
+        "z": "eab64dbbfd6ee530",
+        "name": "Temp. Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1730,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "c94a972c0c410592",
+        "type": "mqtt out",
+        "z": "eab64dbbfd6ee530",
+        "name": "Blynk Temp.",
+        "topic": "ds/temperature",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7389073fb818c7d9",
+        "x": 1730,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "16cbdd3f145b7a00",
+        "type": "debug",
+        "z": "eab64dbbfd6ee530",
+        "name": "Hum. Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1730,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "4c18747642164e61",
+        "type": "mqtt out",
+        "z": "eab64dbbfd6ee530",
+        "name": "Blynk Hum.",
+        "topic": "ds/humidity",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7389073fb818c7d9",
+        "x": 1730,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d0af8a70699994a6",
+        "type": "debug",
+        "z": "eab64dbbfd6ee530",
+        "name": "Gas Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1730,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "53bd1bc1de366cde",
+        "type": "mqtt out",
+        "z": "eab64dbbfd6ee530",
+        "name": "Blynk Gas",
+        "topic": "ds/gas",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7389073fb818c7d9",
+        "x": 1730,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "7a630234db6dc23e",
+        "type": "link out",
+        "z": "eab64dbbfd6ee530",
+        "name": "Temp. msg out",
+        "mode": "link",
+        "links": [
+            "f2da5b931bef0cca"
+        ],
+        "x": 1675,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "5afa8fd108903fd8",
+        "type": "link out",
+        "z": "eab64dbbfd6ee530",
+        "name": "Hum msg out",
+        "mode": "link",
+        "links": [
+            "f2da5b931bef0cca"
+        ],
+        "x": 1675,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "76dba59cf40753a0",
+        "type": "link out",
+        "z": "eab64dbbfd6ee530",
+        "name": "Gas msg out",
+        "mode": "link",
+        "links": [
+            "f2da5b931bef0cca"
+        ],
+        "x": 1675,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f2da5b931bef0cca",
+        "type": "link in",
+        "z": "eab64dbbfd6ee530",
+        "name": "Temp. Hum. Gas in",
+        "links": [
+            "5afa8fd108903fd8",
+            "76dba59cf40753a0",
+            "7a630234db6dc23e"
+        ],
+        "x": 1025,
+        "y": 760,
+        "wires": [
+            [
+                "6825522c52c554db"
+            ]
+        ]
+    },
+    {
+        "id": "6825522c52c554db",
+        "type": "function",
+        "z": "eab64dbbfd6ee530",
+        "name": "Evaluate LED Status",
+        "func": "var tempStatus = flow.get(\"temp_status\");\nvar humStatus = flow.get(\"hum_status\");\nvar gasStatus = flow.get(\"gas_status\");\n\n// Set LED status\nvar ledStatus = flow.get(\"led_status\") || false;\n\n// check if all status is 'good'\nif (tempStatus == \"good\" && humStatus == \"good\" && gasStatus == \"good\"){\n    ledStatus = false;\n} else {\n    ledStatus = true;\n}\n\nmsg.payload = ledStatus.toString();\nflow.set(\"led_status\", ledStatus);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 760,
+        "wires": [
+            [
+                "8f7868d938612ac1",
+                "0bfb63b83db179b1"
+            ]
+        ]
+    },
+    {
+        "id": "4f22709445688538",
+        "type": "ui-chart",
+        "z": "eab64dbbfd6ee530",
+        "group": "sensors",
+        "name": "Temperature Chart",
+        "label": "chart",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1750,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f5d5462db49e6cac",
+        "type": "ui-chart",
+        "z": "eab64dbbfd6ee530",
+        "group": "sensors",
+        "name": "Humidity Chart",
+        "label": "chart",
+        "order": 6,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1740,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ef2f9731702b9622",
+        "type": "ui-chart",
+        "z": "eab64dbbfd6ee530",
+        "group": "sensors",
+        "name": "Gas concentration chart",
+        "label": "chart",
+        "order": 5,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1770,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0bfb63b83db179b1",
+        "type": "debug",
+        "z": "eab64dbbfd6ee530",
+        "name": "LED Status MQTT Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1570,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "8c85337553f20cce",
+        "type": "function",
+        "z": "eab64dbbfd6ee530",
+        "name": "Parse Blynk Command",
+        "func": "var blynkLed = msg.payload\nvar ledStatus = flow.get(\"led_status\") || false;\n\nif (blynkLed == 1) {\n    ledStatus = true;\n} else {\n    ledStatus = false;\n}\n\nflow.set(\"led_status\", ledStatus);\nmsg.payload = ledStatus.toString();\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 900,
+        "wires": [
+            [
+                "6286e5c6c6906ec2",
+                "8f7868d938612ac1"
+            ]
+        ]
+    },
+    {
+        "id": "f1a2af114db5d35b",
+        "type": "comment",
+        "z": "eab64dbbfd6ee530",
+        "name": "Flow Contexts Evaluation for LED Status",
+        "info": "to evaluate LED status based on Flow Contexts",
+        "x": 1160,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "d07de51ec34afb35",
+        "type": "mqtt-broker",
+        "name": "X-CAMP Broker TBMQ",
+        "broker": "broker.xdevelopment.my.id",
+        "port": 1883,
+        "clientid": "X-CAMP Node-RED",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "7389073fb818c7d9",
+        "type": "mqtt-broker",
+        "name": "Blynk-cloud",
+        "broker": "blynk.cloud",
+        "port": "8883",
+        "tls": "d0fad18ad7899af8",
+        "clientid": "",
+        "autoConnect": false,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "ds/Terminal",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "|BLYNK| Type \"help\" for the list of available commands",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "sensors",
+        "type": "ui-group",
+        "name": "Sensor Readings",
+        "page": "main_page",
+        "width": 12,
+        "height": 1,
+        "order": 1
+    },
+    {
+        "id": "d0fad18ad7899af8",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "ISRG_Root_X1.der",
+        "servername": "fra.blynk-qa.com",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "main_page",
+        "type": "ui-page",
+        "name": "IoT Sensor Dashboard",
+        "ui": "26fb482efec7e607",
+        "path": "/dashboard",
+        "icon": "mdi-view-dashboard",
+        "layout": "grid",
+        "theme": "18fb132c619748b9",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "26fb482efec7e607",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true
+    },
+    {
+        "id": "18fb132c619748b9",
+        "type": "ui-theme",
+        "name": "Theme Name",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]
