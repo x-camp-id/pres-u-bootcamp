@@ -1,18 +1,10 @@
 [
     {
-        "id": "eab64dbbfd6ee530",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "3bfe96f17fefeec4",
         "type": "mqtt in",
         "z": "eab64dbbfd6ee530",
         "name": "Sensor Data MQTT",
-        "topic": "pres-u/group-xx/#",
+        "topic": "pres-u/nim/#",
         "qos": "0",
         "datatype": "json",
         "broker": "d07de51ec34afb35",
@@ -93,47 +85,6 @@
         "x": 1180,
         "y": 860,
         "wires": []
-    },
-    {
-        "id": "62aee376070226bc",
-        "type": "switch",
-        "z": "eab64dbbfd6ee530",
-        "name": "Switch Topic",
-        "property": "topic",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "pres-u/group-xx/temp",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "pres-u/group-xx/hum",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "pres-u/group-xx/gas",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 3,
-        "x": 1190,
-        "y": 360,
-        "wires": [
-            [
-                "d14aa7499c932bd5"
-            ],
-            [
-                "f6b6f753949ea57e"
-            ],
-            [
-                "6c75137e3989d185"
-            ]
-        ]
     },
     {
         "id": "d14aa7499c932bd5",
@@ -620,6 +571,47 @@
         "x": 1160,
         "y": 720,
         "wires": []
+    },
+    {
+        "id": "62aee376070226bc",
+        "type": "switch",
+        "z": "eab64dbbfd6ee530",
+        "name": "Switch Topic",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "pres-u/nim/temp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pres-u/nim/hum",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pres-u/nim/gas",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1190,
+        "y": 360,
+        "wires": [
+            [
+                "d14aa7499c932bd5"
+            ],
+            [
+                "f6b6f753949ea57e"
+            ],
+            [
+                "6c75137e3989d185"
+            ]
+        ]
     },
     {
         "id": "d07de51ec34afb35",
