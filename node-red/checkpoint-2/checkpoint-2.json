@@ -432,7 +432,7 @@
         "name": "X-CAMP Broker TBMQ",
         "broker": "broker.xdevelopment.my.id",
         "port": 1883,
-        "clientid": "X-CAMP Node-RED",
+        "clientid": "",
         "autoConnect": true,
         "usetls": false,
         "protocolVersion": 4,
