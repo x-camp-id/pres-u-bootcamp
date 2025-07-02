@@ -1,0 +1,715 @@
+[
+    {
+        "id": "3138fa6079a1b2e2",
+        "type": "tab",
+        "label": "Pres U - Checkpoint 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a6db3d998017fc58",
+        "type": "mqtt in",
+        "z": "3138fa6079a1b2e2",
+        "name": "Sensor Data MQTT",
+        "topic": "pres-u/nim/#",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "d07de51ec34afb35",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 320,
+        "wires": [
+            [
+                "d6a0d3922ed25d9f"
+            ]
+        ]
+    },
+    {
+        "id": "09c1eda5b8d017fc",
+        "type": "mqtt out",
+        "z": "3138fa6079a1b2e2",
+        "name": "LED Commands",
+        "topic": "pres-u/x-camp/led-command",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d07de51ec34afb35",
+        "x": 940,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "a19504840b67537e",
+        "type": "function",
+        "z": "3138fa6079a1b2e2",
+        "name": "Process Temperature",
+        "func": "// Use code from Process Temperature",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 120,
+        "wires": [
+            [
+                "4e8ac03da5e38091",
+                "24e05cddcc664e17",
+                "4a6f53828a86619c",
+                "29759648eb6560a3"
+            ]
+        ]
+    },
+    {
+        "id": "844df1551e97f5ea",
+        "type": "function",
+        "z": "3138fa6079a1b2e2",
+        "name": "Process Humidity",
+        "func": "// Use code from process humidity",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 320,
+        "wires": [
+            [
+                "8d2c5d35fa5fe08f",
+                "68194609aa2caaa9",
+                "6a8cafa3643778a3",
+                "6f49fda3ac34aac0"
+            ]
+        ]
+    },
+    {
+        "id": "503d1dc215e2670b",
+        "type": "function",
+        "z": "3138fa6079a1b2e2",
+        "name": "Process Gas Concentration",
+        "func": "// Use code from process gas concentration",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 520,
+        "wires": [
+            [
+                "c8ecfb74495a5382",
+                "dfa24451b43225bd",
+                "b2080253047c55c5",
+                "2f7fd6d80ba78811"
+            ]
+        ]
+    },
+    {
+        "id": "4e8ac03da5e38091",
+        "type": "debug",
+        "z": "3138fa6079a1b2e2",
+        "name": "Temp. Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "24e05cddcc664e17",
+        "type": "mqtt out",
+        "z": "3138fa6079a1b2e2",
+        "name": "Blynk Temp.",
+        "topic": "ds/temperature",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7389073fb818c7d9",
+        "x": 1130,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "8d2c5d35fa5fe08f",
+        "type": "debug",
+        "z": "3138fa6079a1b2e2",
+        "name": "Hum. Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "68194609aa2caaa9",
+        "type": "mqtt out",
+        "z": "3138fa6079a1b2e2",
+        "name": "Blynk Hum.",
+        "topic": "ds/humidity",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7389073fb818c7d9",
+        "x": 1130,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "c8ecfb74495a5382",
+        "type": "debug",
+        "z": "3138fa6079a1b2e2",
+        "name": "Gas Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "dfa24451b43225bd",
+        "type": "mqtt out",
+        "z": "3138fa6079a1b2e2",
+        "name": "Blynk Gas",
+        "topic": "ds/gas",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7389073fb818c7d9",
+        "x": 1130,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "4a6f53828a86619c",
+        "type": "link out",
+        "z": "3138fa6079a1b2e2",
+        "name": "Temp. msg out",
+        "mode": "link",
+        "links": [
+            "805ea42907b9ace5"
+        ],
+        "x": 1075,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "6a8cafa3643778a3",
+        "type": "link out",
+        "z": "3138fa6079a1b2e2",
+        "name": "Hum msg out",
+        "mode": "link",
+        "links": [
+            "805ea42907b9ace5"
+        ],
+        "x": 1075,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b2080253047c55c5",
+        "type": "link out",
+        "z": "3138fa6079a1b2e2",
+        "name": "Gas msg out",
+        "mode": "link",
+        "links": [
+            "805ea42907b9ace5"
+        ],
+        "x": 1075,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "805ea42907b9ace5",
+        "type": "link in",
+        "z": "3138fa6079a1b2e2",
+        "name": "Temp. Hum. Gas in",
+        "links": [
+            "6a8cafa3643778a3",
+            "b2080253047c55c5",
+            "4a6f53828a86619c"
+        ],
+        "x": 425,
+        "y": 720,
+        "wires": [
+            [
+                "fe24245984dd58f3"
+            ]
+        ]
+    },
+    {
+        "id": "fe24245984dd58f3",
+        "type": "function",
+        "z": "3138fa6079a1b2e2",
+        "name": "Evaluate LED Status",
+        "func": "// Use code from evaluate LED status",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 720,
+        "wires": [
+            [
+                "09c1eda5b8d017fc",
+                "b26bd3710d98a3a1"
+            ]
+        ]
+    },
+    {
+        "id": "29759648eb6560a3",
+        "type": "ui-chart",
+        "z": "3138fa6079a1b2e2",
+        "group": "sensors",
+        "name": "Temperature Chart",
+        "label": "chart",
+        "order": 3,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1150,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f49fda3ac34aac0",
+        "type": "ui-chart",
+        "z": "3138fa6079a1b2e2",
+        "group": "sensors",
+        "name": "Humidity Chart",
+        "label": "chart",
+        "order": 8,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1140,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2f7fd6d80ba78811",
+        "type": "ui-chart",
+        "z": "3138fa6079a1b2e2",
+        "group": "sensors",
+        "name": "Gas concentration chart",
+        "label": "chart",
+        "order": 11,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1170,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b26bd3710d98a3a1",
+        "type": "debug",
+        "z": "3138fa6079a1b2e2",
+        "name": "LED Status MQTT Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "d4be8cdb4aaf098b",
+        "type": "comment",
+        "z": "3138fa6079a1b2e2",
+        "name": "Flow Contexts Evaluation for LED Status",
+        "info": "to evaluate LED status based on Flow Contexts",
+        "x": 560,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "d6a0d3922ed25d9f",
+        "type": "switch",
+        "z": "3138fa6079a1b2e2",
+        "name": "Switch Topic",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "pres-u/nim/temp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pres-u/nim/hum",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pres-u/nim/gas",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "a19504840b67537e"
+            ],
+            [
+                "844df1551e97f5ea"
+            ],
+            [
+                "503d1dc215e2670b"
+            ]
+        ]
+    },
+    {
+        "id": "d07de51ec34afb35",
+        "type": "mqtt-broker",
+        "name": "X-CAMP Broker TBMQ",
+        "broker": "broker.xdevelopment.my.id",
+        "port": 1883,
+        "clientid": "X-CAMP Node-RED",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "7389073fb818c7d9",
+        "type": "mqtt-broker",
+        "name": "Blynk-cloud",
+        "broker": "blynk.cloud",
+        "port": "8883",
+        "tls": "d0fad18ad7899af8",
+        "clientid": "",
+        "autoConnect": false,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "ds/Terminal",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "|BLYNK| Type \"help\" for the list of available commands",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "sensors",
+        "type": "ui-group",
+        "name": "Sensor Readings",
+        "page": "main_page",
+        "width": 12,
+        "height": 1,
+        "order": 1
+    },
+    {
+        "id": "d0fad18ad7899af8",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "ISRG_Root_X1.der",
+        "servername": "fra.blynk-qa.com",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "main_page",
+        "type": "ui-page",
+        "name": "IoT Sensor Dashboard",
+        "ui": "26fb482efec7e607",
+        "path": "/dashboard",
+        "icon": "mdi-view-dashboard",
+        "layout": "grid",
+        "theme": "18fb132c619748b9",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "26fb482efec7e607",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true
+    },
+    {
+        "id": "18fb132c619748b9",
+        "type": "ui-theme",
+        "name": "Theme Name",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]

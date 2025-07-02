@@ -1,0 +1,310 @@
+[
+    {
+        "id": "3455fdefd4f44c67",
+        "type": "tab",
+        "label": "Pres U - Checkpoint 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "80b288ec6177fb19",
+        "type": "mqtt in",
+        "z": "3455fdefd4f44c67",
+        "name": "Sensor Data MQTT",
+        "topic": "pres-u/nim/#",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "d07de51ec34afb35",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 430,
+        "y": 160,
+        "wires": [
+            [
+                "552ecb7eeb85d207"
+            ]
+        ]
+    },
+    {
+        "id": "552ecb7eeb85d207",
+        "type": "function",
+        "z": "3455fdefd4f44c67",
+        "name": "Process Temperature",
+        "func": "// Use code for 'Process Temperature'",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 160,
+        "wires": [
+            [
+                "cf7e63ec9efa9663",
+                "6a265d13807df4ee",
+                "ef0c4c7553207a47"
+            ]
+        ]
+    },
+    {
+        "id": "cf7e63ec9efa9663",
+        "type": "debug",
+        "z": "3455fdefd4f44c67",
+        "name": "Temp. Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6a265d13807df4ee",
+        "type": "mqtt out",
+        "z": "3455fdefd4f44c67",
+        "name": "Blynk Temp.",
+        "topic": "ds/temperature",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7389073fb818c7d9",
+        "x": 990,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ef0c4c7553207a47",
+        "type": "ui-chart",
+        "z": "3455fdefd4f44c67",
+        "group": "sensors",
+        "name": "Temperature Chart",
+        "label": "chart",
+        "order": 4,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1010,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d07de51ec34afb35",
+        "type": "mqtt-broker",
+        "name": "X-CAMP Broker TBMQ",
+        "broker": "broker.xdevelopment.my.id",
+        "port": 1883,
+        "clientid": "X-CAMP Node-RED",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "7389073fb818c7d9",
+        "type": "mqtt-broker",
+        "name": "Blynk-cloud",
+        "broker": "blynk.cloud",
+        "port": "8883",
+        "tls": "d0fad18ad7899af8",
+        "clientid": "",
+        "autoConnect": false,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "ds/Terminal",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "|BLYNK| Type \"help\" for the list of available commands",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "sensors",
+        "type": "ui-group",
+        "name": "Sensor Readings",
+        "page": "main_page",
+        "width": 12,
+        "height": 1,
+        "order": 1
+    },
+    {
+        "id": "d0fad18ad7899af8",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "ISRG_Root_X1.der",
+        "servername": "fra.blynk-qa.com",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "main_page",
+        "type": "ui-page",
+        "name": "IoT Sensor Dashboard",
+        "ui": "26fb482efec7e607",
+        "path": "/dashboard",
+        "icon": "mdi-view-dashboard",
+        "layout": "grid",
+        "theme": "18fb132c619748b9",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "26fb482efec7e607",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true
+    },
+    {
+        "id": "18fb132c619748b9",
+        "type": "ui-theme",
+        "name": "Theme Name",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]
