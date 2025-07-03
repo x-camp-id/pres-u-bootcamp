@@ -1,13 +1,13 @@
 var blynkLed = msg.payload
-var ledStatus = flow.get("led_status") || false;
+var ledStatus = flow.get("led_status") || "OFF";
 
 if (blynkLed == 1) {
-    ledStatus = true;
+    ledStatus = "ON";
 } else {
-    ledStatus = false;
+    ledStatus = "OFF";
 }
 
 flow.set("led_status", ledStatus);
-msg.payload = ledStatus.toString();
+msg.payload = ledStatus;
 
 return msg;
